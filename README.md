@@ -17,7 +17,7 @@ I have decided to include one such example (which can be used as-is in place of 
 
 These lines embody the basic concept of integrating lazy-loading into any existing gallery-like plugin and are noted in the modified source with inline JavaScript comments.
 
-1) Identify the workhorse code.  This is typically a method like "showSlide", or in the bootstrap code above, Carousel.prototype.slide.
+1) Identify the workhorse code.  This is typically a method like "showSlide", or in the bootstrap code below, Carousel.prototype.slide.
 
 2) Wrap the workhorse code in a function and assign to a variable.
 
