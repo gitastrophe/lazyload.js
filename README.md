@@ -13,9 +13,25 @@ In addition, slide-shows / photo galleries / carousels are the most common conte
 ## Examples
 
 I've used lazyLoad in a number of different gallery-like applications, but it's difficult to come up with illustrative examples without pasting the entire contents of the gallery JS code into this project.
+I have decided to include one such example (which can be used as-is in place of the original) - the most simple implementation of lazy-loading I could come up with as a [four-line modification](https://github.com/gitastrophe/lazyload.js/blob/master/examples/bootstrap-carousel.js) to the [Twitter bootstrap carousel](http://twitter.github.com/bootstrap/javascript.html#carousel) JS source.
 
-So I have decided to include one such example - the most simple implementation of lazy-loading I could come up with as a [four-line modification](https://github.com/gitastrophe/lazyload.js/blob/master/examples/bootstrap-carousel.js) to the [Twitter bootstrap carousel](http://twitter.github.com/bootstrap/javascript.html#carousel) JS source.
-I don't particularly like digging through other peoples' code either, so I'm pasting the summary of those changes as a code snippet here:
+These lines embody the basic concept of integrating lazy-loading into any existing gallery-like plugin and are noted in the modified source with inline JavaScript comments.
+
+1) Identify the workhorse code.  This is typically a method like "showSlide", or in the bootstrap code above, Carousel.prototype.slide.
+
+2) Wrap the workhorse code in a function and assign to a variable.
+
+    var callback = function() { /* original workhorse code goes here */ };
+
+3) Store the original invocation context.
+
+    var context = this;
+
+4) Invoke lazyLoad on the stuff you're about to show, then invoke the workhorse callback in the original calling context (The code almost says this better than this explanation).
+
+    $nextSlide.lazyLoad().then(function() { callback.call(context); });
+
+I don't particularly like digging through other peoples' code either, so I'm pasting the relevant original code with changes as a code snippet here:
 
     var context = this; /* lazyLoad */
     var callback = function() { /* lazyLoad */
@@ -50,18 +66,4 @@ I don't particularly like digging through other peoples' code either, so I'm pas
 
     return this
 
-The added lines are all noted with inline JavaScript comments.
-These lines embody the basic concept of integrating lazy-loading into any existing gallery-like plugin.
 
-1) Identify the workhorse code.  This is typically a method like "showSlide", or in the bootstrap code above, Carousel.prototype.slide.
-2) Wrap the workhorse code in a function and assign to a variable.
-
-    var callback = function() { /* original workhorse code goes here */ };
-
-3) Store the original invocation context.
-
-    var context = this;
-
-4) Invoke lazyLoad on the stuff you're about to show, then invoke the workhorse callback in the original calling context (The code almost says this better than this explanation).
-
-    $nextSlide.lazyLoad().then(function() { callback.call(context); });
