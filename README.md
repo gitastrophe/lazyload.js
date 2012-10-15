@@ -50,4 +50,18 @@ I don't particularly like digging through other peoples' code either, so I'm pas
 
     return this
 
-The four added lines are all noted with inline JavaScript comments.
+The added lines are all noted with inline JavaScript comments.
+These lines embody the basic concept of integrating lazy-loading into any existing gallery-like plugin.
+
+1) Identify the workhorse code.  This is typically a method like "showSlide", or in the bootstrap code above, Carousel.prototype.slide.
+2) Wrap the workhorse code in a function and assign to a variable.
+
+    var callback = function() { /* original workhorse code goes here */ };
+
+3) Store the original invocation context.
+
+    var context = this;
+
+4) Invoke lazyLoad on the stuff you're about to show, then invoke the workhorse callback in the original calling context (The code almost says this better than this explanation).
+
+    $nextSlide.lazyLoad().then(function() { callback.call(context); });
