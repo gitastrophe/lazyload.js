@@ -13,7 +13,8 @@ In addition, slide-shows / photo galleries / carousels are the most common conte
 ## Examples
 
 I've used lazyLoad in a number of different gallery-like applications, but it's difficult to come up with illustrative examples without pasting the entire contents of the gallery JS code into this project.
-So I have included the most simple implementation of lazy-loading I could find as a [4-line modification](https://github.com/gitastrophe/lazyload.js/blob/master/examples/bootstrap-carousel.js) to the Twitter bootstrap carousel JS source.
+
+So I have decided to include one such example - the most simple implementation of lazy-loading I could find as a [four-line modification](https://github.com/gitastrophe/lazyload.js/blob/master/examples/bootstrap-carousel.js) to the [Twitter bootstrap carousel](http://twitter.github.com/bootstrap/javascript.html#carousel) JS source.
 I don't particularly like digging through other peoples' code either, so I'm pasting the summary of those changes as a code snippet here:
 
     var context = this; /* lazyLoad */
@@ -47,4 +48,6 @@ I don't particularly like digging through other peoples' code either, so I'm pas
 
     $next.lazyLoad().then(function() { callback.call(context); }); /* lazyLoad, then call workhorse code */
 
-    return this`
+    return this
+
+The four added lines are all noted with inline JavaScript comments.
