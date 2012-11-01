@@ -1,9 +1,7 @@
 /*
- * jQuery lazyLoad plugin
- * @author: Brendan Brelsford
- * @email: brendanb@gmail.com
- * 
- * @version 1.0 [2012-06-22]
+ * jQuery lazyLoad plugin, version 1.0 [2012-06-22]
+ * Copyright 2012, Brendan Brelsford [brendanb@gmail.com]
+ * Licensed under the MIT license [http://opensource.org/licenses/MIT]
  * 
  * Usage:
  * 
