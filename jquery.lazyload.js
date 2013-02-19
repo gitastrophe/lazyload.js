@@ -110,9 +110,6 @@ if (typeof jQuery !== 'undefined') {
                                 $loadObject.removeAttr(options.srcProp);
                             }
 
-                            /* set data to indicate that the image has been lazy-loaded */
-                            $loadObject.data('lazyLoad', true);
-
                             /* delete the anonymous image */
                             delete(i);
 
@@ -141,9 +138,6 @@ if (typeof jQuery !== 'undefined') {
                                 $loadObject.removeAttr(options.srcProp);
                             }
 
-                            /* set data to indicate that the image has been lazy-loaded */
-                            $loadObject.data('lazyLoad', true);
-
                             /* remove CSS loading class */
                             $loadObject.removeClass(options.loadingClass);
 
@@ -153,6 +147,9 @@ if (typeof jQuery !== 'undefined') {
 
                         $loadObject.attr('src', newSrc);
                     }
+
+                    /* set data to indicate that the image has been lazy-loaded */
+                    $loadObject.data('lazyLoad', true);
                 }
             });
 
