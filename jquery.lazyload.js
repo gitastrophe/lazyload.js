@@ -71,8 +71,8 @@ if (typeof jQuery !== 'undefined') {
             }, opts);
 
             /* Filter objects to only those that haven't yet been lazy-loaded */
-            var $objects = $(this).map(function(index, $el) {
-                return !($el.data('lazyLoad') === true);
+            var $objects = $(this).filter(function(index) {
+                return !($(this).data('lazyLoad') === true);
             });
 
             /* If "descend" is set to true, find descendants with attribute "options.srcProp" */
