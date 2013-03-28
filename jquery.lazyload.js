@@ -70,13 +70,29 @@ if (typeof jQuery !== 'undefined') {
                 'maxTimeout': 1000
             }, opts);
 
-            /* find all objects with attribute options.srcProp that are contained in the current selection */
-            var $objects = $(this);
+            /* Filter objects to only those that haven't yet been lazy-loaded */
+            var $objects = $(this).map(function(index, $el) {
+                return !($el.data('lazyLoad') === true);
+            });
 
-            /* if "descend" is set to true, add images that are descendants */
+            /* If "descend" is set to true, find descendants with attribute "options.srcProp" */
+            var $children = null;
             if(options.descend === true) {
-                $objects = $objects.add($objects.find('[' + options.srcProp + ']'));
+                $children = $objects.add($objects.find('[' + options.srcProp + ']'));
             }
+
+            /* Further reduce the objects to only those that have attribute "options.srcProp" */
+            $objects = $objects.filter('[' + options.srcProp + ']');
+
+            /* Add children if any were found */
+            if($children !== null && $children.size() > 0) {
+                $objects.add($children);
+            }
+
+            /* Set data to indicate that the image has been lazy-loaded.  This flag is set before
+            * any actual work is done to remove the potential for race conditions that might lead
+            * to one image being loaded twice. */
+            $objects.data('lazyLoad', true);
 
             var dfdList = [];
 
@@ -87,7 +103,7 @@ if (typeof jQuery !== 'undefined') {
                 var newSrc = $loadObject.attr(options.srcProp);
 
                 /* if the image has not been lazy-loaded and has a srcProp, proceed with loading */
-                if($loadObject.data('lazyLoad') !== true && newSrc != null) {
+                if(newSrc != null) {
 
                     /* add a new deferred for this image to the array */
                     var dfd = new $.Deferred();
@@ -100,7 +116,8 @@ if (typeof jQuery !== 'undefined') {
 
                         /* create an anonymous Image and define its load callback */
                         var i = new Image();
-                        $(i).load(function() {
+                        var $i = $(i)
+                        $i.load(function() {
 
                             /* change src attribute to reflect the loaded srcProp */
                             $loadObject.attr('src', newSrc);
@@ -120,7 +137,7 @@ if (typeof jQuery !== 'undefined') {
                             dfd.resolve();
                         });
 
-                        $(i).error(function() {
+                        $i.error(function() {
                             $loadObject.trigger('error');
                         });
 
@@ -147,9 +164,6 @@ if (typeof jQuery !== 'undefined') {
 
                         $loadObject.attr('src', newSrc);
                     }
-
-                    /* set data to indicate that the image has been lazy-loaded */
-                    $loadObject.data('lazyLoad', true);
                 }
             });
 
